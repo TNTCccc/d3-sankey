@@ -293,6 +293,20 @@ export interface SankeyLayout<Data, N extends SankeyExtraProperties, L extends S
     nodeSort(nodeSort: (node0: SankeyNode<N, L>, node1: SankeyNode<N, L>) => number): this;
 
     /**
+     * Return the current node sort method.
+     */
+    nodeMaxDepth(): (calculatedMaxDepth: number) => number;
+    /**
+     * Set the method used to calculate the maximum depth (number of columns)
+     * of a node and return this Sankey layout generator. The default function
+     * returns the maximum depth calculated by the Sankey layout generator.
+     *
+     * @param nodeMaxDepth The specified function is used to set the maximum 
+     * depth that can be returned by the nodeAlign function
+     */
+    nodeMaxDepth(nodeMaxDepth: (calculatedMaxDepth: number) => number): this;
+
+    /**
      * Return the current node width, which defaults to 24.
      */
     nodeWidth(): number;
