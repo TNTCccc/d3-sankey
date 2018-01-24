@@ -298,8 +298,10 @@ export interface SankeyLayout<Data, N extends SankeyExtraProperties, L extends S
     nodeMaxDepth(): (calculatedMaxDepth: number) => number;
     /**
      * Set the method used to calculate the maximum depth (number of columns)
-     * of a node and return this Sankey layout generator. The default function
-     * returns the maximum depth calculated by the Sankey layout generator.
+     * of a node, for example in conjunction with a costom nodeAlign function
+     * that requires more columns than default calculations allow for, and
+     * return this Sankey layout generator. The default function returns the
+     * maximum depth calculated by the Sankey layout generator.
      *
      * @param nodeMaxDepth The specified function is used to set the maximum 
      * depth that can be returned by the nodeAlign function
