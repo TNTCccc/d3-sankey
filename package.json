@@ -39,5 +39,5 @@
     "tape": "4",
     "uglify-js": "3"
   },
-  "types": "./types/index.d.ts"
+  "types": "./index.d.ts"
 }

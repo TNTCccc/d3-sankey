@@ -56,6 +56,7 @@ export default function() {
       id = defaultId,
       align = justify,
       sort = ascendingBreadth,
+      maxDepth = function(x) { return x },
       nodes = defaultNodes,
       links = defaultLinks,
       iterations = 32;
@@ -85,6 +86,10 @@ export default function() {
 
   sankey.nodeSort = function(_) {
     return arguments.length ? (sort = typeof _ === "function" ? _ : constant(_), sankey) : sort;
+  };
+
+  sankey.nodeMaxDepth = function(_) {
+    return arguments.length ? (maxDepth = typeof _ === "function" ? _ : constant(_), sankey) : maxDepth;
   };
 
   sankey.nodeWidth = function(_) {
@@ -152,7 +157,7 @@ export default function() {
     var nodes, next, x;
 
     for (nodes = graph.nodes, next = [], x = 0; nodes.length; ++x, nodes = next, next = []) {
-      nodes.forEach(function(node) {
+      nodes.forEach(function(node, i) {
         node.depth = x;
         node.sourceLinks.forEach(function(link) {
           if (next.indexOf(link.target) < 0) {
@@ -172,6 +177,8 @@ export default function() {
         });
       });
     }
+
+    x = maxDepth(x);
 
     var kx = (x1 - x0 - dx) / (x - 1);
     graph.nodes.forEach(function(node) {
