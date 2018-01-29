@@ -157,7 +157,7 @@ export default function() {
     var nodes, next, x;
 
     for (nodes = graph.nodes, next = [], x = 0; nodes.length; ++x, nodes = next, next = []) {
-      nodes.forEach(function(node, i) {
+      nodes.forEach(function(node) {
         node.depth = x;
         node.sourceLinks.forEach(function(link) {
           if (next.indexOf(link.target) < 0) {
