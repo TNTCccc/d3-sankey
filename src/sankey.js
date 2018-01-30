@@ -59,7 +59,10 @@ export default function() {
       maxDepth = function(x) { return x },
       nodes = defaultNodes,
       links = defaultLinks,
-      iterations = 32;
+      iterations = 32,
+      sourceField = 'source',
+      targetField = 'target'
+      ;
 
   function sankey() {
     var graph = {nodes: nodes.apply(null, arguments), links: links.apply(null, arguments)};
@@ -74,6 +77,14 @@ export default function() {
   sankey.update = function(graph) {
     computeLinkBreadths(graph);
     return graph;
+  };
+
+  sankey.sourceField = function(_) {
+    return arguments.length ? (sourceField = _, sankey) : sourceField;
+  };
+
+  sankey.targetField = function(_) {
+    return arguments.length ? (targetField = _, sankey) : targetField;
   };
 
   sankey.nodeId = function(_) {
@@ -131,7 +142,8 @@ export default function() {
     var nodeById = map(graph.nodes, id);
     graph.links.forEach(function(link, i) {
       link.index = i;
-      var source = link.source, target = link.target;
+      var source = link.source || (link.source = link[sourceField]);
+      var target = link.target || (link.source = link[targetField]);
       if (typeof source !== "object") source = link.source = find(nodeById, source);
       if (typeof target !== "object") target = link.target = find(nodeById, target);
       source.sourceLinks.push(link);

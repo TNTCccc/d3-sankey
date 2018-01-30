@@ -213,6 +213,24 @@ export interface SankeyLayout<Data, N extends SankeyExtraProperties, L extends S
     update(graph: SankeyGraph<N, L>): SankeyGraph<N, L>;
 
     /**
+     * Return the name of the property in link objects that indicates the source node
+     */
+    sourceField(): string;
+    /**
+     * Set the name of the property in link objects that indicates the source node. Defaults to 'source'.
+     */
+    sourceField(name: string): this;
+
+    /**
+     * Return the name of the property in link objects that indicates the source node
+     */
+    targetField(): string;
+    /**
+     * Set the name of the property in link objects that indicates the source node. Defaults to 'source'.
+     */
+    targetField(name: string): this;
+
+    /**
      * Return the current nodes accessor function, which defaults to a function returning the "nodes" property of the
      * first argument it is invoked with.
      */
