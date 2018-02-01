@@ -327,6 +327,22 @@ export interface SankeyLayout<Data, N extends SankeyExtraProperties, L extends S
     nodeMaxDepth(nodeMaxDepth: (calculatedMaxDepth: number) => number): this;
 
     /**
+     * Return the current function used to apply custom transforms
+     */
+    postResolveCollisionsTransforms(): (nodes: SankeyNode<N, L>[], columnIndex: number) => void;
+    /**
+     * Set the method used to apply custom transforms to nodes in each column
+     * once the Sankey layout generator has resolved all vertical collisions.
+     * The default function returns the maximum depth calculated by the Sankey
+     * layout generator.
+     *
+     * @param postResolveCollisionsTransforms The specified function is called
+     * after vertical collisions are resolved to enable costom transforms to be
+     * applied to the each node in the column currently being processed
+     */
+    postResolveCollisionsTransforms(postResolveCollisionsTransforms: (nodes: SankeyNode<N, L>[], columnIndex: number) => void): this;
+
+    /**
      * Return the current node width, which defaults to 24.
      */
     nodeWidth(): number;

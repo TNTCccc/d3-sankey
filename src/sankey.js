@@ -1,7 +1,11 @@
-import {ascending, min, sum} from "d3-array";
+import {min, sum} from "d3-array";
 import {map, nest} from "d3-collection";
 import {justify} from "./align";
 import constant from "./constant";
+
+function ascending(a, b) {
+  return a - b;
+}
 
 function ascendingSourceBreadth(a, b) {
   return ascendingBreadth(a.source, b.source) || a.index - b.index;
@@ -57,6 +61,7 @@ export default function() {
       align = justify,
       sort = ascendingBreadth,
       maxDepth = function(x) { return x },
+      postResolveCollisionsTransforms = function() {},
       nodes = defaultNodes,
       links = defaultLinks,
       iterations = 32,
@@ -101,6 +106,10 @@ export default function() {
 
   sankey.nodeMaxDepth = function(_) {
     return arguments.length ? (maxDepth = typeof _ === "function" ? _ : constant(_), sankey) : maxDepth;
+  };
+
+  sankey.postResolveCollisionsTransforms = function(_) {
+    return arguments.length ? (postResolveCollisionsTransforms = typeof _ === "function" ? _ : constant(_), sankey) : postResolveCollisionsTransforms;
   };
 
   sankey.nodeWidth = function(_) {
@@ -205,7 +214,6 @@ export default function() {
         .entries(graph.nodes)
         .map(function(d) { return d.values; });
 
-    //
     initializeNodeBreadth();
     resolveCollisions();
     for (var alpha = 1, n = iterations; n > 0; --n) {
@@ -254,7 +262,7 @@ export default function() {
     }
 
     function resolveCollisions() {
-      columns.forEach(function(nodes) {
+      columns.forEach(function(nodes, columnIndex) {
         var node,
             dy,
             y = y0,
@@ -283,7 +291,10 @@ export default function() {
             y = node.y0;
           }
         }
+
+        postResolveCollisionsTransforms(nodes, columnIndex);
       });
+      
     }
   }
 
