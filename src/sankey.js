@@ -223,6 +223,10 @@ export default function() {
       resolveCollisions();
     }
 
+    columns.forEach(function(nodes, columnIndex) {
+      postResolveCollisionsTransforms(nodes, columnIndex);
+    });
+
     function initializeNodeBreadth() {
       var ky = min(columns, function(nodes) {
         return (y1 - y0 - (nodes.length - 1) * py) / sum(nodes, value);
@@ -291,8 +295,6 @@ export default function() {
             y = node.y0;
           }
         }
-
-        postResolveCollisionsTransforms(nodes, columnIndex);
       });
       
     }
